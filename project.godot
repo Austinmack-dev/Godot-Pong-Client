@@ -17,7 +17,6 @@ _global_script_class_icons={
 
 config/name="Godot-Pong-Client"
 run/main_scene="res://Scenes/GameStart.tscn"
-config/icon="res://icon.png"
 
 [autoload]
 

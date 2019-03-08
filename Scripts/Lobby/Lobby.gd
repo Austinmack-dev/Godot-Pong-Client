@@ -4,14 +4,16 @@ var pLobbies = []
 var my_id
 var MAX_PLAYERS = Networking.MAX_PLAYERS
 const PlayerLobbyScene = preload("res://Scenes/Lobby/PlayerLobby.tscn")
-const GameWorld = preload("res://Scenes/GameWorld/GameWorld.tscn")
+const GameWorld = preload("res://Shared/Scenes/GameWorld/GameWorld.tscn")
+const PlayerScene = preload("res://Shared/Scenes/PlayerScenes/Player.tscn")
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Networking.connect("setup_ui",self,"_setup_ui")
 	Networking.connect("update_ui",self,"_update_ui")
 	Networking.connect("start_game",self,"_start_game")
-	my_id = get_tree().multiplayer.get_network_unique_id();
+	my_id = get_tree().multiplayer.get_network_unique_id()
 	print ("my id: " + str(my_id))
 	#set_network_master(get_tree().multiplayer.get_network_unique_id())
 	print ("network master: " + str(get_network_master()))
@@ -62,7 +64,18 @@ func _setup_ui(info):
 				pLobby.get_node("ReadyButton").visible = true
 
 func _start_game(info):
+	var keys = info.keys()
 	var game = GameWorld.instance()
+	var num_players = info.size()
+	
+		
 	get_tree().get_root().add_child(game)
+	for i in range(0,num_players):
+		var player = PlayerScene.instance()
+		player.name = "Player" + str(keys[i])
+		player.get_node("PlayerName").text = info[keys[i]].name
+		player.position = Vector2(900*i, player.position.y)
+		get_node("/root/GameWorld").add_child(player)
+	
 	hide()
 	

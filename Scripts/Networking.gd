@@ -6,7 +6,7 @@ signal clear_player_lobby()
 signal start_game(info)
 
 var client_info = {name="Hello", ready = false}
-var MAX_PLAYERS = 3
+var MAX_PLAYERS = 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,6 +38,9 @@ func _no_longer_connected():
 	get_tree().multiplayer.set_network_peer(null)
 	var size = MAX_PLAYERS
 	get_node("/root/LobbyNode").free()
+	#free the GameWorld
+	if(has_node("/root/GameWorld")):
+		get_node("/root/GameWorld").free()
 
 puppet func _send_client_info(info):
 	emit_signal("setup_ui",info)
