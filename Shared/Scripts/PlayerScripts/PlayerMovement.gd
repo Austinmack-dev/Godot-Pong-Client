@@ -9,29 +9,21 @@ var id_to_move
 var serverMove = Vector2()
 
 puppet func _move_player(moveVec, id, info):
-	#print("my client id: " + str(player_id) + " server sent id: " + str(id))
 	var keys = info.keys()
-	
+	var player2
+	var player1
 	for i in range(0,keys.size()):
 		if(keys[i] != id):
-			var player2 = get_node("/root/GameWorld/Player"+str(keys[i]))
-			#print("player2 name: " + player2.name + " has node?: " + player2.name + " " + str(has_node("/root/GameWorld/" + player2.name)))
-			player2.set_physics_process(false)
-#			player2.movementVector = Vector2(0,0)
-			#print("player2 movementVector: " + str(player2.movementVector))
+			player2 = get_node("/root/GameWorld/Player"+str(keys[i]))
 		else:
-			var player = get_node("/root/GameWorld/Player"+str(id))
-			var game = get_node("/root/GameWorld")
-			#print("player1 name: " + player.name + " has node?: " + player.name + " "  + str(has_node("/root/GameWorld/" + player.name )))
-			
-			player.set_physics_process(true)
-			player.movementVector = moveVec
-			player.serverMove = moveVec
-			#print("player1 movementVector: " + str(player.movementVector))
-	
-	#print("moveVec: " + str(moveVec))	
+			player1 = get_node("/root/GameWorld/Player"+str(id))
 
-# Called when the node enters the scene tree for the first time.
+	player2.set_physics_process(false)	
+	player1.set_physics_process(true)
+	player1.movementVector = moveVec
+	player1.serverMove = moveVec
+	
+
 func _ready():
 	var lobby = get_node("/root/LobbyNode")
 	player_id = lobby.my_id
