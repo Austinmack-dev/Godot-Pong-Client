@@ -65,17 +65,20 @@ func _setup_ui(info):
 
 func _start_game(info):
 	var keys = info.keys()
-	var game = GameWorld.instance()
-	var num_players = info.size()
-	
-		
-	get_tree().get_root().add_child(game)
-	for i in range(0,num_players):
-		var player = PlayerScene.instance()
-		player.name = "Player" + str(keys[i])
-		player.get_node("PlayerName").text = info[keys[i]].name
-		player.position = Vector2(900*i, player.position.y)
-		get_node("/root/GameWorld").add_child(player)
-	
-	hide()
-	
+#	print("BEFORE ADD - START GAME")
+#	get_tree().get_root().print_tree_pretty()
+	if(has_node("/root/GameWorld")):
+		pass
+	else:
+		var game = GameWorld.instance()
+		var num_players = info.size()
+		get_tree().get_root().add_child(game)
+		for i in range(0,num_players):
+			var player = PlayerScene.instance()
+			player.name = "Player" + str(keys[i])
+			player.get_node("PlayerName").text = info[keys[i]].name
+			player.position = Vector2(900*i, player.position.y)
+			get_node("/root/GameWorld").add_child(player)
+		hide()
+	print("AFTER ADD - START GAME")
+	get_tree().get_root().print_tree_pretty()
