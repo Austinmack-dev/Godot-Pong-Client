@@ -39,19 +39,19 @@ func _ready():
 	gameWorldLabel.text = gameWorldLabel.text + " id of this client: " + str(player_id)
 
 func _get_inputs():
-	pass
+	moveY = 0
+	if Input.is_key_pressed(KEY_UP) or Input.is_key_pressed(KEY_W):
+		moveY = moveY - 1
+	if Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S):
+		moveY = moveY + 1
+	toMove = Vector2(0,moveY)
 
 func _physics_process(delta):
 	if serverMove.y != 0:
 		toMove = serverMove
 		serverMove = Vector2()
 	else:
-		moveY = 0
-		if Input.is_key_pressed(KEY_UP) or Input.is_key_pressed(KEY_W):
-			moveY = moveY - 1
-		if Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S):
-			moveY = moveY + 1
-		toMove = Vector2(0,moveY)
+		_get_inputs()
 	
 	#movementVector = toMove.normalized()*movementSpeed
 	if(moveY != 0):
