@@ -12,16 +12,23 @@ puppet func _move_player(moveVec, id, info):
 	var keys = info.keys()
 	var player2
 	var player1
+#	if(id == keys[0]):
+#		player1 = get_node("/root/GameWorld/Player" + str(id))
+#		player2 = get_node("/root/GameWorld/Player" + str(keys[1]))
+#
+#	if(id == keys[1]):
+#		player2 = get_node("/root/GameWorld/Player" + str(id))
+#		player1 = get_node("/root/GameWorld/Player" + str(keys[0]))
+		
 	for i in range(0,keys.size()):
 		if(keys[i] != id):
 			player2 = get_node("/root/GameWorld/Player"+str(keys[i]))
 		else:
 			player1 = get_node("/root/GameWorld/Player"+str(id))
-
-	player2.set_physics_process(false)	
 	player1.set_physics_process(true)
 	player1.movementVector = moveVec
 	player1.serverMove = moveVec
+	player2.set_physics_process(false)	
 	
 
 func _ready():
