@@ -39,12 +39,13 @@ func _ready():
 
 func _get_inputs():
 	moveY = 0
+	movementVector = Vector2(0,0)
 	if Input.is_key_pressed(KEY_UP) or Input.is_key_pressed(KEY_W):
 		moveY = moveY - 1
 	if Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S):
 		moveY = moveY + 1
 	toMove = Vector2(0,moveY)
-
+	
 func _physics_process(delta):
 	if serverMove.y != 0:
 		toMove = serverMove
@@ -52,11 +53,11 @@ func _physics_process(delta):
 	else:
 		_get_inputs()
 	
-	#movementVector = toMove.normalized()*movementSpeed
+	#if you are controlling the character
 	if(moveY != 0):
 		rpc_unreliable_id(1,"_send_server_movement_data",toMove, player_id)
-		move_and_slide(movementVector*movementSpeed)
-	else:
 		move_and_slide(toMove*movementSpeed)
+	else:
+		move_and_slide(movementVector*movementSpeed)
 
 
