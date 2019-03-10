@@ -3,28 +3,27 @@ extends KinematicBody2D
 var player_id
 var moveY = 0
 var movementVector = Vector2()
-var toMove
+var toMove = Vector2()
 export var movementSpeed = 200
-var id_to_move
 var serverMove = Vector2()
 
 puppet func _move_player(moveVec, id, info):
 	var keys = info.keys()
 	var player2
 	var player1
-#	if(id == keys[0]):
-#		player1 = get_node("/root/GameWorld/Player" + str(id))
-#		player2 = get_node("/root/GameWorld/Player" + str(keys[1]))
-#
-#	if(id == keys[1]):
-#		player2 = get_node("/root/GameWorld/Player" + str(id))
-#		player1 = get_node("/root/GameWorld/Player" + str(keys[0]))
+	if(id == keys[0]):
+		player1 = get_node("/root/GameWorld/Player" + str(keys[0]))
+		player2 = get_node("/root/GameWorld/Player" + str(keys[1]))
+
+	if(id == keys[1]):
+		player2 = get_node("/root/GameWorld/Player" + str(keys[0]))
+		player1 = get_node("/root/GameWorld/Player" + str(keys[1]))
 		
-	for i in range(0,keys.size()):
-		if(keys[i] != id):
-			player2 = get_node("/root/GameWorld/Player"+str(keys[i]))
-		else:
-			player1 = get_node("/root/GameWorld/Player"+str(id))
+#	for i in range(0,keys.size()):
+#		if(keys[i] != id):
+#			player2 = get_node("/root/GameWorld/Player"+str(keys[i]))
+#		else:
+#			player1 = get_node("/root/GameWorld/Player"+str(id))
 	player1.set_physics_process(true)
 	player1.movementVector = moveVec
 	player1.serverMove = moveVec
@@ -38,26 +37,28 @@ func _ready():
 	gameWorldLabel.text = gameWorldLabel.text + " id of this client: " + str(player_id)
 
 func _get_inputs():
+	pass
+	
+func _physics_process(delta):
+	
 	moveY = 0
-	movementVector = Vector2(0,0)
 	if Input.is_key_pressed(KEY_UP) or Input.is_key_pressed(KEY_W):
 		moveY = moveY - 1
 	if Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S):
 		moveY = moveY + 1
 	toMove = Vector2(0,moveY)
 	
-func _physics_process(delta):
-	if serverMove.y != 0:
-		toMove = serverMove
-		serverMove = Vector2()
-	else:
-		_get_inputs()
-	
 	#if you are controlling the character
 	if(moveY != 0):
-		rpc_unreliable_id(1,"_send_server_movement_data",toMove, player_id)
+		#print("sending vector (to server): " + str(toMove.normalized()))
+		rpc_unreliable_id(1,"_send_server_movement_data",toMove.normalized(), player_id)
 		move_and_slide(toMove*movementSpeed)
 	else:
-		move_and_slide(movementVector*movementSpeed)
-
+		if serverMove.y != 0:
+			toMove = serverMove
+			serverMove = Vector2()
+			move_and_slide(toMove*movementSpeed)
+	#print("local clinet " + str(player_id) + " vector from input" + str(toMove))
+	
+	
 

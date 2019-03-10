@@ -22,9 +22,14 @@ run/main_scene="res://Scenes/GameStart.tscn"
 
 Networking="*res://Scripts/Networking.gd"
 
+[editor]
+
+active=false
+
 [physics]
 
-common/physics_fps=120
+common/physics_fps=50
+common/physics_jitter_fix=0.6
 
 [rendering]
 
