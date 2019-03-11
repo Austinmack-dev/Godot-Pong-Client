@@ -28,7 +28,7 @@ active=false
 
 [physics]
 
-common/physics_fps=50
+common/physics_fps=120
 common/physics_jitter_fix=0.6
 
 [rendering]
