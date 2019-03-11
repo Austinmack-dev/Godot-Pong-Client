@@ -1,13 +1,23 @@
-[gd_scene format=2]
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 561.791, 19.5414 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 544.527, 22.1049 )
 
 [node name="GameWorld" type="Node2D"]
 
-[node name="GameWorldLabel" type="Label" parent="."]
-margin_left = 191.0
-margin_top = 38.0
-margin_right = 819.0
-margin_bottom = 565.0
-text = "GAMEWORLD"
-align = 1
-valign = 1
+[node name="TopCollider" type="StaticBody2D" parent="."]
+position = Vector2( 462.64, 19.5482 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopCollider"]
+shape = SubResource( 1 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2( 475.79, 569.474 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 3.15784, 13.6842 )
+shape = SubResource( 2 )
 

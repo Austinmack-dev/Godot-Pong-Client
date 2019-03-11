@@ -6,6 +6,7 @@ var MAX_PLAYERS = Networking.MAX_PLAYERS
 const PlayerLobbyScene = preload("res://Scenes/Lobby/PlayerLobby.tscn")
 const GameWorld = preload("res://Shared/Scenes/GameWorld/GameWorld.tscn")
 const PlayerScene = preload("res://Shared/Scenes/PlayerScenes/Player.tscn")
+const BallScene = preload("res://Shared/Scenes/Ball/Ball.tscn")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -72,13 +73,20 @@ func _start_game(info):
 	else:
 		var game = GameWorld.instance()
 		var num_players = info.size()
+		
 		get_tree().get_root().add_child(game)
+		var ball = BallScene.instance()
+		game.add_child(ball)
 		for i in range(0,num_players):
 			var player = PlayerScene.instance()
 			player.name = "Player" + str(keys[i])
 			player.get_node("PlayerName").text = info[keys[i]].name
 			player.position = Vector2(900*i, player.position.y)
 			get_node("/root/GameWorld").add_child(player)
+			if(i == 1):
+				var playerSprite = player.get_node("Sprite")
+				playerSprite.texture = preload("res://Shared/paddle2.png")
+			
 		hide()
 	print("AFTER ADD - START GAME")
 	get_tree().get_root().print_tree_pretty()
