@@ -75,6 +75,7 @@ func _start_game(info):
 	get_tree().get_root().add_child(game)
 	var ball = BallScene.instance()
 	game.add_child(ball)
+	print("ball's position when placed----" + str(ball.position))
 	for i in range(0,num_players):
 		var player = PlayerScene.instance()
 		player.name = "Player" + str(keys[i])
@@ -86,14 +87,18 @@ func _start_game(info):
 		if(i == 1):
 			var playerSprite = player.get_node("Sprite")
 			playerSprite.texture = preload("res://Shared/paddle2.png")
-			
-	game.get_node("Score-" + str(keys[0])).text = info[keys[0]].name + " 's Score: " + str(game.p1Score)
-	game.get_node("Score-" + str(keys[1])).text = info[keys[1]].name + " 's Score: " + str(game.p2Score)
+	
+	var player1ScoreLabel = game.get_node("Score-" + str(keys[0]))
+	var player2ScoreLabel = game.get_node("Score-" + str(keys[1]))
+	
+	
+	player1ScoreLabel.text = info[keys[0]].name + " 's Score: " + str(0)
+	player2ScoreLabel.text = info[keys[1]].name + " 's Score: " + str(0)
 	for i in range(num_players-1,-1,-1):
-			var scoreZone = PlayerScoreZone.instance()
-			scoreZone.name = "ScoreZone-"+str(keys[i])
-			scoreZone.position = Vector2(1000-(1000*i),scoreZone.position.y)
-			game.add_child(scoreZone)
+		var scoreZone = PlayerScoreZone.instance()
+		scoreZone.name = "ScoreZone-"+str(keys[i])
+		scoreZone.position = Vector2(1000-(1000*i),scoreZone.position.y)
+		game.add_child(scoreZone)
 	hide()
-	print("AFTER ADD - START GAME")
-	get_tree().get_root().print_tree_pretty()
+#	print("AFTER ADD - START GAME")
+#	get_tree().get_root().print_tree_pretty()

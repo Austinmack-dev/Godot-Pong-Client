@@ -10,6 +10,6 @@ func _ready():
 func _on_ScoreZone_body_entered(body):
 	if(body.get_name() == "Ball"):
 		var myId = name.substr(10,name.length())
-		
 		body.hide()
 		game.rpc_id(1,"_send_score",int(myId),scoreToSend)
+		game.reset_ball()
