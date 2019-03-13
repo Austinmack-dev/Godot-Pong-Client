@@ -7,6 +7,7 @@ const PlayerLobbyScene = preload("res://Scenes/Lobby/PlayerLobby.tscn")
 const GameWorld = preload("res://Shared/Scenes/GameWorld/GameWorld.tscn")
 const PlayerScene = preload("res://Shared/Scenes/PlayerScenes/Player.tscn")
 const BallScene = preload("res://Shared/Scenes/Ball/Ball.tscn")
+const PlayerScoreZone = preload("res://Shared/Scenes/GameWorld/PlayerScoreZone/PlayerScoreZone.tscn")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -68,25 +69,31 @@ func _start_game(info):
 	var keys = info.keys()
 #	print("BEFORE ADD - START GAME")
 #	get_tree().get_root().print_tree_pretty()
-	if(has_node("/root/GameWorld")):
-		pass
-	else:
-		var game = GameWorld.instance()
-		var num_players = info.size()
-		
-		get_tree().get_root().add_child(game)
-		var ball = BallScene.instance()
-		game.add_child(ball)
-		for i in range(0,num_players):
-			var player = PlayerScene.instance()
-			player.name = "Player" + str(keys[i])
-			player.get_node("PlayerName").text = info[keys[i]].name
-			player.position = Vector2(900*i, player.position.y)
-			get_node("/root/GameWorld").add_child(player)
-			if(i == 1):
-				var playerSprite = player.get_node("Sprite")
-				playerSprite.texture = preload("res://Shared/paddle2.png")
+	var game = GameWorld.instance()
+	var num_players = info.size()
+	
+	get_tree().get_root().add_child(game)
+	var ball = BallScene.instance()
+	game.add_child(ball)
+	for i in range(0,num_players):
+		var player = PlayerScene.instance()
+		player.name = "Player" + str(keys[i])
+		player.get_node("PlayerName").text = info[keys[i]].name
+		player.position = Vector2(900*i, player.position.y)
+		var pz = game.get_node("Score" + str(i+1))
+		pz.name = "Score-"+str(keys[i])
+		game.add_child(player)
+		if(i == 1):
+			var playerSprite = player.get_node("Sprite")
+			playerSprite.texture = preload("res://Shared/paddle2.png")
 			
-		hide()
+	game.get_node("Score-" + str(keys[0])).text = info[keys[0]].name + " 's Score: " + str(game.p1Score)
+	game.get_node("Score-" + str(keys[1])).text = info[keys[1]].name + " 's Score: " + str(game.p2Score)
+	for i in range(num_players-1,-1,-1):
+			var scoreZone = PlayerScoreZone.instance()
+			scoreZone.name = "ScoreZone-"+str(keys[i])
+			scoreZone.position = Vector2(1000-(1000*i),scoreZone.position.y)
+			game.add_child(scoreZone)
+	hide()
 	print("AFTER ADD - START GAME")
 	get_tree().get_root().print_tree_pretty()
