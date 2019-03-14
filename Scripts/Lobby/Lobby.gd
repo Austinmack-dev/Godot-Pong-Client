@@ -75,7 +75,7 @@ func _start_game(info):
 	get_tree().get_root().add_child(game)
 	var ball = BallScene.instance()
 	game.add_child(ball)
-	print("ball's position when placed----" + str(ball.position))
+	ball.set_physics_process(false)
 	for i in range(0,num_players):
 		var player = PlayerScene.instance()
 		player.name = "Player" + str(keys[i])
@@ -84,6 +84,7 @@ func _start_game(info):
 		var pz = game.get_node("Score" + str(i+1))
 		pz.name = "Score-"+str(keys[i])
 		game.add_child(player)
+		player.set_physics_process(false)
 		if(i == 1):
 			var playerSprite = player.get_node("Sprite")
 			playerSprite.texture = preload("res://Shared/paddle2.png")

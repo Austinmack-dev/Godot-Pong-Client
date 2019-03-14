@@ -36,3 +36,28 @@ margin_top = 6.68427
 margin_right = 762.0
 margin_bottom = 35.6843
 
+[node name="GameStartLabel" type="Label" parent="."]
+margin_left = 327.0
+margin_top = 159.0
+margin_right = 433.0
+margin_bottom = 214.0
+text = "Game Starts In: "
+align = 1
+valign = 1
+
+[node name="NextPointLabel" type="Label" parent="."]
+visible = false
+margin_left = 298.698
+margin_top = 159.0
+margin_right = 430.698
+margin_bottom = 214.0
+text = "Next Point Starts In: "
+align = 1
+valign = 1
+
+[node name="TimerLabel" type="Label" parent="."]
+margin_left = 433.811
+margin_top = 179.264
+margin_right = 473.811
+margin_bottom = 193.264
+
