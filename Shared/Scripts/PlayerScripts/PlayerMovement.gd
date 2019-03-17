@@ -10,7 +10,7 @@ var serverMove = Position2D
 puppet func _move_player(serverPos, id):
 	var beingControlled = name.find(str(id))
 	if(beingControlled != -1):
-		position.y = serverPos.y
+		position = serverPos
 
 func _ready():
 	var lobby = get_node("/root/LobbyNode")
@@ -45,7 +45,8 @@ func _physics_process(delta):
 		#rpc_unreliable_id(1,"_send_server_movement_data", toMove.normalized())
 		#move based on the calculated move vector
 		move_and_collide(toMove.normalized()*moveSpeed*delta)
-		#print("player pos x: " +  str(int(position.x)) + " y: " + str(int(position.y)))
+		position.x = position.x
+		#print("position: " + str(position))
 	#else:
 		#position = serverMove
 

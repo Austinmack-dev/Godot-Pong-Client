@@ -13,7 +13,7 @@ puppet func ball_move(pos,mvDir):
 
 func _physics_process(delta):
 	rpc_id(1,"_send_server_ball_move_info",moveDir,delta)
-	print("after send on client")
+	#print("after send on client")
 #	var coll = move_and_collide(velocity*delta)
 #	if(coll):
 #		velocity = velocity.bounce(coll.normal)

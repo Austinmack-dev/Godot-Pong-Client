@@ -20,5 +20,6 @@ func _on_ScoreZone_body_entered(body):
 		#if we are the client who scored, send this information to the server
 		if(int(myId) == client_id):
 			game.rpc_id(1,"_send_score",int(myId),scoreToSend)
+			game.rpc_id(1,"_reset_ball_on_server")
 		#reset the ball's position for the next point
-		game.reset_ball()
+		
