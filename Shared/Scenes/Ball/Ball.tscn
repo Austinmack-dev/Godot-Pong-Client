@@ -13,7 +13,7 @@ script = ExtResource( 1 )
 position = Vector2( 499.089, 275.459 )
 texture = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="BallCollider" type="CollisionShape2D" parent="."]
 position = Vector2( 489.438, 267.945 )
 shape = SubResource( 1 )
 
