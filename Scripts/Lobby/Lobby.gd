@@ -83,18 +83,19 @@ func _start_game(info):
 		player.position = Vector2(900*i, player.position.y)
 		var pz = game.get_node("Score" + str(i+1))
 		pz.name = "Score-"+str(keys[i])
+		pz.text = info[keys[i]].name + "'s Score: " + str(0)
 		game.add_child(player)
 		#player.set_physics_process(false)
 		if(i == 1):
 			var playerSprite = player.get_node("Sprite")
 			playerSprite.texture = preload("res://Shared/paddle2.png")
 	
-	var player1ScoreLabel = game.get_node("Score-" + str(keys[0]))
-	var player2ScoreLabel = game.get_node("Score-" + str(keys[1]))
-	
-	
-	player1ScoreLabel.text = info[keys[0]].name + " 's Score: " + str(0)
-	player2ScoreLabel.text = info[keys[1]].name + " 's Score: " + str(0)
+#	var player1ScoreLabel = game.get_node("Score-" + str(keys[0]))
+#	var player2ScoreLabel = game.get_node("Score-" + str(keys[1]))
+#
+#
+#	player1ScoreLabel.text = info[keys[0]].name + " 's Score: " + str(0)
+#	player2ScoreLabel.text = info[keys[1]].name + " 's Score: " + str(0)
 	for i in range(num_players-1,-1,-1):
 		var scoreZone = PlayerScoreZone.instance()
 		scoreZone.name = "ScoreZone-"+str(keys[i])

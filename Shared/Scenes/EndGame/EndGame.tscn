@@ -1,0 +1,24 @@
+[gd_scene format=2]
+
+[node name="EndGame" type="Node2D"]
+
+[node name="PlayerWinLabel" type="Label" parent="."]
+margin_left = 357.0
+margin_top = 99.0
+margin_right = 636.0
+margin_bottom = 144.0
+
+[node name="Quit" type="Button" parent="."]
+margin_left = 379.0
+margin_top = 190.0
+margin_right = 537.0
+margin_bottom = 225.0
+text = "Quit Game"
+
+[node name="BackToLobby" type="Button" parent="."]
+margin_left = 388.0
+margin_top = 251.0
+margin_right = 531.0
+margin_bottom = 288.0
+text = "Back To Lobby"
+

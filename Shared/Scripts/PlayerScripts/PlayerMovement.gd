@@ -6,6 +6,7 @@ var player_id
 var isControlling = 0
 const moveSpeed = 350
 var serverMove = Position2D
+var originalPos
 
 puppet func _move_player(serverPos, id):
 	var beingControlled = name.find(str(id))
@@ -16,12 +17,13 @@ func _ready():
 	var lobby = get_node("/root/LobbyNode")
 	player_id = lobby.my_id
 	isControlling = name.find(str(player_id))
-
+	originalPos = position
 
 func _physics_process(delta):
 	#if the client in focus is the same as my network id
 	#get the inputs from the keyboard, and move based on those inputs
 	if isControlling != -1:
+		
 		
 		#resets the moveY variable to not constantly move
 		moveY = 0
@@ -45,8 +47,7 @@ func _physics_process(delta):
 		#rpc_unreliable_id(1,"_send_server_movement_data", toMove.normalized())
 		#move based on the calculated move vector
 		move_and_collide(toMove.normalized()*moveSpeed*delta)
-		position.x = position.x
+		#do not let the position move
+		position.x = originalPos.x
 		#print("position: " + str(position))
-	#else:
-		#position = serverMove
 

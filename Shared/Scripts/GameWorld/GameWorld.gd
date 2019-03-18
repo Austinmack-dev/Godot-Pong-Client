@@ -5,6 +5,7 @@ var timeLabel
 var gameStartLabel
 var nextPointLabel
 var countDown = 5
+const EndGameScene = preload("res://Shared/Scenes/EndGame/EndGame.tscn")
 
 func _ready():
 	gameStartLabel = get_node("GameStartLabel")
@@ -21,6 +22,15 @@ puppet func _player_scored(client_id, score):
 	var textWithoutScore = pScore.text.substr(0,pScore.text.length()-1)
 	print(textWithoutScore)
 	pScore.text = textWithoutScore + str(score)
+
+puppet func _player_win(player_name):
+	#hide the game world
+	hide()
+	#show the end game screen
+	var end = EndGameScene.instance()
+	get_tree().get_root().add_child(end)
+	var playerWinLabel = end.get_node("PlayerWinLabel")
+	playerWinLabel.text = player_name + " wins the game!!!"
 
 puppet func _reset_ball_on_client():
 	var ball = get_node("Ball")
