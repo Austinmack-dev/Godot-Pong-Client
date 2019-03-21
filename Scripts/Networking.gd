@@ -46,7 +46,32 @@ puppet func _send_client_info(info):
 	emit_signal("setup_ui",info)
 
 puppet func _send_client_ready(info, id):
+	if(has_node("/root/EndGame")):
+		var end = get_node("/root/EndGame")
+		end.free()
+	if(has_node("/root/LobbyNode")):
+		get_node("/root/LobbyNode").show()
 	emit_signal("update_ui",info, id)
 	
+puppet func _end_game_client(info):
+	if(has_node("/root/EndGame")):
+		var end = get_node("/root/EndGame")
+		end.free()
+	if(has_node("/root/LobbyNode")):
+		get_node("/root/LobbyNode").show()
+	var keys = info.keys()
+	for i in range(0,keys.size()):
+		var pLobby = get_node("/root/LobbyNode/PlayerLobby" + str(i))
+		if(info[keys[i]].ready == false):
+			pLobby.get_node("PlayerReadyLabel").visible = false
+			#pLobby.get_node("PlayerReadyLabel").text = "Player name: " + info[keys[i]].name + " is ready!!!!"
+			pLobby.get_node("ReadyButton").visible = true
+
 puppet func _send_client_start_game(info):
+	if(has_node("/root/EndGame")):
+		var end = get_node("/root/EndGame")
+		end.free()
+
+	if(has_node("/root/GameWorld")):
+		get_node("/root/GameWorld").show()
 	emit_signal("start_game",info)

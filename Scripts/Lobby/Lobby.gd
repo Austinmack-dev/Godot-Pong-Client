@@ -42,6 +42,14 @@ func _update_ui(info,id):
 				pLobby.get_node("PlayerReadyLabel").visible = true
 				pLobby.get_node("PlayerReadyLabel").text = "Player name: " + info[keys[i]].name + " is ready!!!!"
 				pLobby.get_node("ReadyButton").visible = false
+			elif((info[keys[i]].ready == false) and my_id == keys[i]):
+				pLobby.get_node("ReadyButton").visible = true
+				pLobby.get_node("PlayerReadyLabel").visible = false
+			else:
+				pLobby.get_node("PlayerReadyLabel").text = ""
+
+
+
 func _setup_ui(info):
 	var keys = info.keys()
 	
@@ -66,41 +74,44 @@ func _setup_ui(info):
 				pLobby.get_node("ReadyButton").visible = true
 
 func _start_game(info):
-	var keys = info.keys()
-#	print("BEFORE ADD - START GAME")
-#	get_tree().get_root().print_tree_pretty()
-	var game = GameWorld.instance()
-	var num_players = info.size()
-	
-	get_tree().get_root().add_child(game)
-	var ball = BallScene.instance()
-	game.add_child(ball)
-	ball.set_physics_process(false)
-	for i in range(0,num_players):
-		var player = PlayerScene.instance()
-		player.name = "Player" + str(keys[i])
-		player.get_node("PlayerName").text = info[keys[i]].name
-		player.position = Vector2(900*i, player.position.y)
-		var pz = game.get_node("Score" + str(i+1))
-		pz.name = "Score-"+str(keys[i])
-		pz.text = info[keys[i]].name + "'s Score: " + str(0)
-		game.add_child(player)
-		player.set_physics_process(false)
-		if(i == 1):
-			var playerSprite = player.get_node("Sprite")
-			playerSprite.texture = preload("res://Shared/paddle2.png")
-	
-#	var player1ScoreLabel = game.get_node("Score-" + str(keys[0]))
-#	var player2ScoreLabel = game.get_node("Score-" + str(keys[1]))
-#
-#
-#	player1ScoreLabel.text = info[keys[0]].name + " 's Score: " + str(0)
-#	player2ScoreLabel.text = info[keys[1]].name + " 's Score: " + str(0)
-	for i in range(num_players-1,-1,-1):
-		var scoreZone = PlayerScoreZone.instance()
-		scoreZone.name = "ScoreZone-"+str(keys[i])
-		scoreZone.position = Vector2(1000-(1000*i),scoreZone.position.y)
-		game.add_child(scoreZone)
-	hide()
+	if(has_node("/root/GameWorld")):
+		get_node("/root/GameWorld").show()
+	else:
+		var keys = info.keys()
+	#	print("BEFORE ADD - START GAME")
+	#	get_tree().get_root().print_tree_pretty()
+		var game = GameWorld.instance()
+		var num_players = info.size()
+		
+		get_tree().get_root().add_child(game)
+		var ball = BallScene.instance()
+		game.add_child(ball)
+		ball.set_physics_process(false)
+		for i in range(0,num_players):
+			var player = PlayerScene.instance()
+			player.name = "Player" + str(keys[i])
+			player.get_node("PlayerName").text = info[keys[i]].name
+			player.position = Vector2(900*i, player.position.y)
+			var pz = game.get_node("Score" + str(i+1))
+			pz.name = "Score-"+str(keys[i])
+			pz.text = info[keys[i]].name + "'s Score: " + str(0)
+			game.add_child(player)
+			player.set_physics_process(false)
+			if(i == 1):
+				var playerSprite = player.get_node("Sprite")
+				playerSprite.texture = preload("res://Shared/paddle2.png")
+		
+	#	var player1ScoreLabel = game.get_node("Score-" + str(keys[0]))
+	#	var player2ScoreLabel = game.get_node("Score-" + str(keys[1]))
+	#
+	#
+	#	player1ScoreLabel.text = info[keys[0]].name + " 's Score: " + str(0)
+	#	player2ScoreLabel.text = info[keys[1]].name + " 's Score: " + str(0)
+		for i in range(num_players-1,-1,-1):
+			var scoreZone = PlayerScoreZone.instance()
+			scoreZone.name = "ScoreZone-"+str(keys[i])
+			scoreZone.position = Vector2(1000-(1000*i),scoreZone.position.y)
+			game.add_child(scoreZone)
+		hide()
 #	print("AFTER ADD - START GAME")
 #	get_tree().get_root().print_tree_pretty()

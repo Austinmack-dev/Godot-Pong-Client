@@ -24,11 +24,14 @@ puppet func _player_scored(client_id, score):
 	pScore.text = textWithoutScore + str(score)
 
 puppet func _player_win(player_name):
+	set_ball_and_player_physics(false)
 	#hide the game world
 	hide()
+	
 	#show the end game screen
 	var end = EndGameScene.instance()
-	get_tree().get_root().add_child(end)
+	if(not has_node("/root/EndGame")):
+		get_tree().get_root().add_child(end)
 	var playerWinLabel = end.get_node("PlayerWinLabel")
 	playerWinLabel.text = player_name + " wins the game!!!"
 
@@ -55,10 +58,10 @@ puppet func _timer_timed_out_on_server():
 	timeLabel.hide()
 
 func set_ball_and_player_physics(ballAndPlayerPhysics):
-	var ball = get_node("Ball")
+	var ball = get_node("/root/GameWorld/Ball")
 	ball.set_physics_process(ballAndPlayerPhysics)
 	#find all the players in the gameworld
-	for child in get_children():
+	for child in get_node("/root/GameWorld").get_children():
 		if(child.name.find("Player") != -1):
 			child.set_physics_process(ballAndPlayerPhysics)
 
