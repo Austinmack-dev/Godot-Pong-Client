@@ -38,6 +38,7 @@ func _update_ui(info,id):
 	else:
 		for i in range(0,keys.size()):
 			var pLobby = get_node("PlayerLobby" + str(i))
+			
 			if(info[keys[i]].ready == true):
 				pLobby.get_node("PlayerReadyLabel").visible = true
 				pLobby.get_node("PlayerReadyLabel").text = "Player name: " + info[keys[i]].name + " is ready!!!!"
@@ -47,8 +48,7 @@ func _update_ui(info,id):
 				pLobby.get_node("PlayerReadyLabel").visible = false
 			else:
 				pLobby.get_node("PlayerReadyLabel").text = ""
-
-
+	
 
 func _setup_ui(info):
 	var keys = info.keys()

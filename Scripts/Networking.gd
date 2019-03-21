@@ -42,6 +42,9 @@ func _no_longer_connected():
 	if(has_node("/root/GameWorld")):
 		get_node("/root/GameWorld").free()
 
+puppet func _set_client_to_not_ready():
+	client_info.ready = false
+
 puppet func _send_client_info(info):
 	emit_signal("setup_ui",info)
 
