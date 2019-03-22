@@ -6,7 +6,7 @@ signal clear_player_lobby()
 signal start_game(info)
 
 var client_info = {name="Hello", ready = false}
-var MAX_PLAYERS = 2
+var MAX_PLAYERS = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -45,10 +45,12 @@ func _no_longer_connected():
 puppet func _set_client_to_not_ready():
 	client_info.ready = false
 
-puppet func _send_client_info(info):
-	emit_signal("setup_ui",info)
+puppet func _setup_lobby(info, max_players):
+	MAX_PLAYERS = max_players
+	print("max players in networking: " + str(MAX_PLAYERS))
+	emit_signal("setup_ui",info, max_players)
 
-puppet func _send_client_ready(info, id):
+puppet func _reset_lobby(info, id):
 	if(has_node("/root/EndGame")):
 		var end = get_node("/root/EndGame")
 		end.free()

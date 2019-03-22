@@ -2,7 +2,7 @@ extends Node2D
 
 var pLobbies = []
 var my_id
-var MAX_PLAYERS = Networking.MAX_PLAYERS
+var MAX_PLAYERS = 0
 const PlayerLobbyScene = preload("res://Scenes/Lobby/PlayerLobby.tscn")
 const GameWorld = preload("res://Shared/Scenes/GameWorld/GameWorld.tscn")
 const PlayerScene = preload("res://Shared/Scenes/PlayerScenes/Player.tscn")
@@ -50,12 +50,13 @@ func _update_ui(info,id):
 				pLobby.get_node("PlayerReadyLabel").text = ""
 	
 
-func _setup_ui(info):
+func _setup_ui(info, max_players):
+	MAX_PLAYERS = max_players
+	print("max players in lobby: " + str(MAX_PLAYERS))
 	var keys = info.keys()
 	
 	#if there are more than one client connected
 	if(get_tree().multiplayer.get_network_connected_peers().size() >= 1):
-		
 		for i in range(0,keys.size()):
 			if(has_node("PlayerLobby" + str(i))):
 				pass
@@ -73,13 +74,16 @@ func _setup_ui(info):
 			if(my_id == keys[i]):
 				pLobby.get_node("ReadyButton").visible = true
 
+
 func _start_game(info):
 	if(has_node("/root/GameWorld")):
-		get_node("/root/GameWorld").show()
+		var game = get_node("/root/GameWorld")
+		game.show()
+		get_node("/root/LobbyNode").hide()
+		game.reset_player_score_labels()
+		game.set_ball_and_player_physics(false)
 	else:
 		var keys = info.keys()
-	#	print("BEFORE ADD - START GAME")
-	#	get_tree().get_root().print_tree_pretty()
 		var game = GameWorld.instance()
 		var num_players = info.size()
 		
@@ -92,26 +96,19 @@ func _start_game(info):
 			player.name = "Player" + str(keys[i])
 			player.get_node("PlayerName").text = info[keys[i]].name
 			player.position = Vector2(900*i, player.position.y)
-			var pz = game.get_node("Score" + str(i+1))
-			pz.name = "Score-"+str(keys[i])
-			pz.text = info[keys[i]].name + "'s Score: " + str(0)
+			var pScoreLabel = game.get_node("Score" + str(i+1))
+			pScoreLabel.name = "Score-"+str(keys[i])
+			pScoreLabel.text = str(0)
+			var pScoreNameLabel = game.get_node("ScoreLabel" + str(i+1))
+			pScoreNameLabel.text = info[keys[i]].name + "'s Score: "
 			game.add_child(player)
 			player.set_physics_process(false)
 			if(i == 1):
 				var playerSprite = player.get_node("Sprite")
 				playerSprite.texture = preload("res://Shared/paddle2.png")
-		
-	#	var player1ScoreLabel = game.get_node("Score-" + str(keys[0]))
-	#	var player2ScoreLabel = game.get_node("Score-" + str(keys[1]))
-	#
-	#
-	#	player1ScoreLabel.text = info[keys[0]].name + " 's Score: " + str(0)
-	#	player2ScoreLabel.text = info[keys[1]].name + " 's Score: " + str(0)
 		for i in range(num_players-1,-1,-1):
 			var scoreZone = PlayerScoreZone.instance()
 			scoreZone.name = "ScoreZone-"+str(keys[i])
 			scoreZone.position = Vector2(1000-(1000*i),scoreZone.position.y)
 			game.add_child(scoreZone)
 		hide()
-#	print("AFTER ADD - START GAME")
-#	get_tree().get_root().print_tree_pretty()

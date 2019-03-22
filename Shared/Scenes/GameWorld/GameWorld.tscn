@@ -24,17 +24,37 @@ position = Vector2( 475.79, 569.474 )
 position = Vector2( 3.15784, 13.6842 )
 shape = SubResource( 2 )
 
+[node name="ScoreLabel1" type="Label" parent="."]
+margin_left = 217.452
+margin_top = 5.62265
+margin_right = 334.452
+margin_bottom = 34.6227
+align = 1
+valign = 1
+
+[node name="ScoreLabel2" type="Label" parent="."]
+margin_left = 659.262
+margin_top = 7.47737
+margin_right = 765.262
+margin_bottom = 36.4774
+align = 1
+valign = 1
+
 [node name="Score1" type="Label" parent="."]
-margin_left = 184.684
-margin_top = 5.63159
-margin_right = 335.684
-margin_bottom = 34.6316
+margin_left = 330.887
+margin_top = 8.0
+margin_right = 370.887
+margin_bottom = 33.0
+align = 1
+valign = 1
 
 [node name="Score2" type="Label" parent="."]
-margin_left = 611.0
-margin_top = 6.68427
-margin_right = 762.0
-margin_bottom = 35.6843
+margin_left = 761.864
+margin_top = 9.06133
+margin_right = 801.864
+margin_bottom = 34.0613
+align = 1
+valign = 1
 
 [node name="GameStartLabel" type="Label" parent="."]
 margin_left = 327.0
