@@ -27,8 +27,11 @@ func reset_player_score_labels():
 		scoreLabel.text = str(0)
 
 puppet func _player_scored(client_id, score):
-	var pScore = get_node("Score-" + str(client_id))
-	pScore.text = str(score)
+	for pScore in scoreLabelList:
+		if(pScore.name == "Score-" + str(client_id)):
+			pScore.text = str(score)
+#	var pScore = get_node("Score-" + str(client_id))
+#	pScore.text = str(score)
 
 puppet func _end_game(player_name):
 	set_ball_and_player_physics(false)
@@ -117,7 +120,7 @@ func setup(listOfPlayerInfo, ball_pos_moveDir):
 			playerSprite.texture = preload("res://Shared/paddle2.png")
 	for i in range(Networking.player_list_from_server.size()-1,-1,-1):
 		setup_scoreZone(keys[i],i)
-	#print_player_list()
+	print_player_list()
 
 puppet func _reset_ball_on_client(ball_pos):
 	#show the label
@@ -143,5 +146,5 @@ puppet func _timer_timed_out_on_server():
 func set_ball_and_player_physics(ballAndPlayerPhysics):
 	ball.set_physics_process(ballAndPlayerPhysics)
 	#find all the players in the gameworld
-	for i in range(0,playerList.size()):
-		playerList[i].set_physics_process(ballAndPlayerPhysics)
+	for player in playerList:
+		player.set_physics_process(ballAndPlayerPhysics)
