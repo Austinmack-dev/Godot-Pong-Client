@@ -47,8 +47,14 @@ puppet func _end_game(player_name):
 		playerWinLabel.text = player_name + " wins the game!!!"
 
 func setup_ball(ball_pos_moveDir):
+	if(has_node("Ball")):
+		pass
+	else:
+		ball = BallScene.instance()
+		add_child(ball)
 	ball.position = ball_pos_moveDir[0]
 	ball.moveDir = ball_pos_moveDir[1]
+	ball.set_physics_process(false)
 
 func print_player_list():
 	print("PlayerList size::: " + str(playerList.size()))
@@ -97,10 +103,8 @@ func setup_scoreZone(id,i):
 
 func setup(listOfPlayerInfo, ball_pos_moveDir):
 	keys = Networking.player_list_from_server.keys()
-	ball = BallScene.instance()
-	add_child(ball)
+	#setup the ball
 	setup_ball(ball_pos_moveDir)
-	ball.set_physics_process(false)
 	for i in range(0,Networking.player_list_from_server.size()):
 		var pName = listOfPlayerInfo[i].playerName
 		var pPos = listOfPlayerInfo[i].pos
