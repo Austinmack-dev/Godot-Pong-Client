@@ -4,7 +4,7 @@ signal setup_ui(info)
 signal update_ui(info,id)
 signal clear_player_lobby()
 signal start_game(info)
-
+var player_list_from_server
 var client_info = {name="Hello", ready = false}
 var MAX_PLAYERS = 0
 
@@ -57,30 +57,12 @@ puppet func _reset_lobby(info, id):
 	if(has_node("/root/LobbyNode")):
 		get_node("/root/LobbyNode").show()
 	emit_signal("update_ui",info, id)
-	
-	
-#puppet func _end_game_client(info):
-#	if(has_node("/root/EndGame")):
-#		var end = get_node("/root/EndGame")
-#		end.free()
-#	if(has_node("/root/LobbyNode")):
-#		get_node("/root/LobbyNode").show()
-#	var keys = info.keys()
-#	for i in range(0,keys.size()):
-#		var pLobby = get_node("/root/LobbyNode/PlayerLobby" + str(i))
-#		if(info[keys[i]].ready == false):
-#			pLobby.get_node("PlayerReadyLabel").visible = false
-#			#pLobby.get_node("PlayerReadyLabel").text = "Player name: " + info[keys[i]].name + " is ready!!!!"
-#			pLobby.get_node("ReadyButton").visible = true
 
 puppet func _send_client_start_game(info,playerPosNames,ball_pos_moveDir):
+	player_list_from_server = info
 	if(has_node("/root/EndGame")):
 		var end = get_node("/root/EndGame")
 		end.hide()
-		
-#	print("CLIENT START GAME-AFTER DELETE OF END GAME")
-#	get_tree().get_root().print_tree_pretty()
-
 	if(has_node("/root/GameWorld")):
 		get_node("/root/GameWorld").show()
 	emit_signal("start_game",info,playerPosNames,ball_pos_moveDir)

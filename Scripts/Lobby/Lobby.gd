@@ -5,10 +5,8 @@ var my_id
 var MAX_PLAYERS = 0
 const PlayerLobbyScene = preload("res://Scenes/Lobby/PlayerLobby.tscn")
 const GameWorld = preload("res://Shared/Scenes/GameWorld/GameWorld.tscn")
-const PlayerScene = preload("res://Shared/Scenes/PlayerScenes/Player.tscn")
-const BallScene = preload("res://Shared/Scenes/Ball/Ball.tscn")
-const PlayerScoreZone = preload("res://Shared/Scenes/GameWorld/PlayerScoreZone/PlayerScoreZone.tscn")
 
+var game
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -78,63 +76,17 @@ func _setup_ui(info, max_players):
 func _start_game(info, playerPosNames,ball_pos_moveDir):
 	print("playerPosNames.size() in _start_game: " + str(playerPosNames.size()))
 	if(has_node("/root/GameWorld")):
-		var game = get_node("/root/GameWorld")
+		#game = get_node("/root/GameWorld")
 		game.show()
 		get_node("/root/LobbyNode").hide()
 		#game.reset_player_score_labels()
 		game.set_ball_and_player_physics(false)
-		
-		var ball = game.get_node("Ball")
-		ball.position = ball_pos_moveDir[0]
-		ball.moveDir = ball_pos_moveDir[1]
-#		ball.moveDir = Vector2(-1,-1)
+		game.setup_ball(ball_pos_moveDir)
+		game.reset_player(playerPosNames)
 	else:
 		var keys = info.keys()
-		var game = GameWorld.instance()
+		game = GameWorld.instance()
 		var num_players = info.size()
-		
 		get_tree().get_root().add_child(game)
-		var ball = BallScene.instance()
-		game.add_child(ball)
-		ball.position = ball_pos_moveDir[0]
-		ball.moveDir = ball_pos_moveDir[1]
-		ball.set_physics_process(false)
-		
-		for i in range(0,playerPosNames.size()):
-			var player = PlayerScene.instance()
-			player.name = playerPosNames[i].playerName
-			player.position = playerPosNames[i].pos
-			player.get_node("PlayerName").text = info[keys[i]].name
-			var pScoreLabel = game.get_node("Score" + str(i+1))
-			pScoreLabel.name = "Score-"+str(keys[i])
-			pScoreLabel.text = str(0)
-			var pScoreNameLabel = game.get_node("ScoreLabel" + str(i+1))
-			pScoreNameLabel.text = info[keys[i]].name + "'s Score: "
-			game.add_child(player)
-			player.set_physics_process(false)
-			if(i == 1):
-				var playerSprite = player.get_node("Sprite")
-				playerSprite.texture = preload("res://Shared/paddle2.png")
-			
-		
-#		for i in range(0,num_players):
-#			var player = PlayerScene.instance()
-#			player.name = "Player" + str(keys[i])
-#			player.get_node("PlayerName").text = info[keys[i]].name
-#			player.position = Vector2(900*i, player.position.y)
-#			var pScoreLabel = game.get_node("Score" + str(i+1))
-#			pScoreLabel.name = "Score-"+str(keys[i])
-#			pScoreLabel.text = str(0)
-#			var pScoreNameLabel = game.get_node("ScoreLabel" + str(i+1))
-#			pScoreNameLabel.text = info[keys[i]].name + "'s Score: "
-#			game.add_child(player)
-#			player.set_physics_process(false)
-#			if(i == 1):
-#				var playerSprite = player.get_node("Sprite")
-#				playerSprite.texture = preload("res://Shared/paddle2.png")
-		for i in range(num_players-1,-1,-1):
-			var scoreZone = PlayerScoreZone.instance()
-			scoreZone.name = "ScoreZone-"+str(keys[i])
-			scoreZone.position = Vector2(1000-(1000*i),scoreZone.position.y)
-			game.add_child(scoreZone)
+		game.setup(playerPosNames, ball_pos_moveDir)
 		hide()
