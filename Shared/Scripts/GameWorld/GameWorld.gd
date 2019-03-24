@@ -22,6 +22,7 @@ puppet func _player_scored(client_id, score):
 	pScore.text = str(score)
 
 puppet func _end_game(player_name,playerPosNames):
+	print("playerPosName.size() in _end_game " + str(playerPosNames.size()))
 	for i in range(0,playerPosNames.size()):
 		var player = get_node(playerPosNames[i].playerName)
 		player.position = playerPosNames[i].pos

@@ -76,6 +76,7 @@ func _setup_ui(info, max_players):
 
 
 func _start_game(info, playerPosNames,ball_pos_moveDir):
+	print("playerPosNames.size() in _start_game: " + str(playerPosNames.size()))
 	if(has_node("/root/GameWorld")):
 		var game = get_node("/root/GameWorld")
 		game.show()
@@ -98,6 +99,7 @@ func _start_game(info, playerPosNames,ball_pos_moveDir):
 		ball.position = ball_pos_moveDir[0]
 		ball.moveDir = ball_pos_moveDir[1]
 		ball.set_physics_process(false)
+		
 		for i in range(0,playerPosNames.size()):
 			var player = PlayerScene.instance()
 			player.name = playerPosNames[i].playerName
