@@ -75,16 +75,13 @@ func _setup_ui(info, max_players):
 
 func _start_game(info, playerPosNames,ball_pos_moveDir):
 	print("playerPosNames.size() in _start_game: " + str(playerPosNames.size()))
+	#if the game is being restarted, restart it
 	if(has_node("/root/GameWorld")):
-		#game = get_node("/root/GameWorld")
 		game.show()
 		get_node("/root/LobbyNode").hide()
-		#game.reset_player_score_labels()
-		game.set_ball_and_player_physics(false)
-		game.setup_ball(ball_pos_moveDir)
-		game.reset_player(playerPosNames)
+		game.restart(playerPosNames,ball_pos_moveDir)
+	#otherwise, setup the game initially
 	else:
-		var keys = info.keys()
 		game = GameWorld.instance()
 		var num_players = info.size()
 		get_tree().get_root().add_child(game)

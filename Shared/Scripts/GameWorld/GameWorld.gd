@@ -13,6 +13,7 @@ var playerList = []
 var scoreLabelList = []
 var scoreNameLabelList = []
 var scoreZoneList = []
+var endGame
 var keys
 
 
@@ -22,33 +23,27 @@ func _ready():
 	timeLabel = get_node("TimerLabel")
 
 func reset_player_score_labels():
-	for child in get_children():
-		if(child.name.find("Score-") != -1):
-			child.text = str(0)
+	for scoreLabel in scoreLabelList:
+		scoreLabel.text = str(0)
 
 puppet func _player_scored(client_id, score):
 	var pScore = get_node("Score-" + str(client_id))
 	pScore.text = str(score)
 
 puppet func _end_game(player_name):
-#	print("playerPosName.size() in _end_game " + str(playerPosNames.size()))
-#	for i in range(0,playerPosNames.size()):
-#		var player = get_node(playerPosNames[i].playerName)
-#		player.position = playerPosNames[i].pos
-	reset_player_score_labels()
 	set_ball_and_player_physics(false)
 	#hide the game world
 	hide()
 	#show the end game screen
 	if(has_node("/root/EndGame")):
-		var end = get_node("/root/EndGame")
-		end.show()
-		var playerWinLabel = end.get_node("PlayerWinLabel")
+		#var end = get_node("/root/EndGame")
+		endGame.show()
+		var playerWinLabel = endGame.get_node("PlayerWinLabel")
 		playerWinLabel.text = player_name + " wins the game!!!"
 	else:
-		var end = EndGameScene.instance()
-		get_tree().get_root().add_child(end)
-		var playerWinLabel = end.get_node("PlayerWinLabel")
+		endGame = EndGameScene.instance()
+		get_tree().get_root().add_child(endGame)
+		var playerWinLabel = endGame.get_node("PlayerWinLabel")
 		playerWinLabel.text = player_name + " wins the game!!!"
 
 func setup_ball(ball_pos_moveDir):
@@ -87,6 +82,12 @@ func setup_scoreName_label(initNameInt, nameText):
 	pScoreNameLabel.text = nameText + "'s Score: "
 	scoreNameLabelList.append(pScoreNameLabel)
 
+func restart(playerPosNames,ball_pos_moveDir):
+	set_ball_and_player_physics(false)
+	setup_ball(ball_pos_moveDir)
+	reset_player(playerPosNames)
+	reset_player_score_labels()
+
 func setup_scoreZone(id,i):
 	var scoreZone = PlayerScoreZone.instance()
 	scoreZone.name = "ScoreZone-"+str(id)
@@ -100,8 +101,6 @@ func setup(listOfPlayerInfo, ball_pos_moveDir):
 	add_child(ball)
 	setup_ball(ball_pos_moveDir)
 	ball.set_physics_process(false)
-	
-	
 	for i in range(0,Networking.player_list_from_server.size()):
 		var pName = listOfPlayerInfo[i].playerName
 		var pPos = listOfPlayerInfo[i].pos
@@ -109,21 +108,12 @@ func setup(listOfPlayerInfo, ball_pos_moveDir):
 		setup_player(pName, pPos, pGameName)
 		setup_score_label(i+1, keys[i])
 		setup_scoreName_label(i+1,pGameName)
-#		var pScoreNameLabel = get_node("ScoreLabel" + str(i+1))
-#		pScoreNameLabel.text = listOfPlayerInfo[i].playerGameName + "'s Score: "
-#		scoreNameLabelList.append(pScoreNameLabel)
-		
 		if(i == 1):
 			var playerSprite = playerList[i].get_node("Sprite")
 			playerSprite.texture = preload("res://Shared/paddle2.png")
 	for i in range(Networking.player_list_from_server.size()-1,-1,-1):
 		setup_scoreZone(keys[i],i)
-#		var scoreZone = PlayerScoreZone.instance()
-#		scoreZone.name = "ScoreZone-"+str(keys[i])
-#		scoreZone.position = Vector2(1000-(1000*i),scoreZone.position.y)
-#		scoreZoneList.append(scoreZone)
-#		add_child(scoreZone)
-	print_player_list()
+	#print_player_list()
 
 puppet func _reset_ball_on_client(ball_pos):
 	#show the label
@@ -147,9 +137,7 @@ puppet func _timer_timed_out_on_server():
 	timeLabel.hide()
 
 func set_ball_and_player_physics(ballAndPlayerPhysics):
-	ball = get_node("Ball")
 	ball.set_physics_process(ballAndPlayerPhysics)
 	#find all the players in the gameworld
-	for child in get_children():
-		if(child.name.find("Player") != -1):
-			child.set_physics_process(ballAndPlayerPhysics)
+	for i in range(0,playerList.size()):
+		playerList[i].set_physics_process(ballAndPlayerPhysics)
