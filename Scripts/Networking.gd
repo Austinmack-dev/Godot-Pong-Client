@@ -1,9 +1,11 @@
 extends Node2D
 
-signal setup_ui(info)
-signal update_ui(info,id)
+signal setup_ui(info, max_players)
+signal update_ui(info, id)
 signal clear_player_lobby()
-signal start_game(info)
+signal start_game(info,playerPosNames,ball_pos_moveDir)
+#signal bad_client()
+var extra = false
 var player_list_from_server
 var client_info = {name="Hello", ready = false}
 var MAX_PLAYERS = 0
@@ -16,7 +18,12 @@ func _ready():
 	get_tree().multiplayer.connect("network_peer_disconnected", self, "_server_disconnected")
 	get_tree().multiplayer.connect("server_disconnected",self,"_no_longer_connected")
 	
-	
+puppet func _testing_client():
+	get_tree().change_scene("res://Dummy.tscn")
+#	print("I am in _testing_client()")
+#	emit_signal("bad_client")
+#	print("after bad_client is emitted")
+
 func _peer_connected(id):
 	pass
 	#rpc("_send_client_info", client_info)
