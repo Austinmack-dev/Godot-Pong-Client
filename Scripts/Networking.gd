@@ -66,6 +66,7 @@ puppet func _reset_lobby(info, id):
 	emit_signal("update_ui",info, id)
 
 puppet func _send_client_start_game(info,playerPosNames,ball_pos_moveDir):
+	print("we are in START_GAME")
 	player_list_from_server = info
 	if(has_node("/root/EndGame")):
 		var end = get_node("/root/EndGame")
