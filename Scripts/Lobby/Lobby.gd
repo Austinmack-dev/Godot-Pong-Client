@@ -20,57 +20,62 @@ func _ready():
 	#print ("\n network master: " + str(get_tree().multiplayer.get_network_master()))
 	
 func _update_ui(info,id):
-	var keys = info.keys()
-	#happens everytime 1 client disconnects
-	if(info.size() < MAX_PLAYERS):
-		
-		var size = info.size() 
-		get_node("PlayerLobby" + str(size)).free()
-		for i in range(0,keys.size()):
-			var pLobby = get_node("PlayerLobby" + str(i))
-			pLobby.get_node("PlayerNumber").text = "Player Number is: " + str(i+1)
-			pLobby.get_node("PlayerName").set_text("Player Name is: " + info[keys[i]].name)
-			pLobby.get_node("ReadyButton").visible = false
-			pLobby.get_node("PlayerReadyLabel").text = ""
-			pLobby.get_node("PlayerReadyLabel").visible = false
-	else:
-		for i in range(0,keys.size()):
-			var pLobby = get_node("PlayerLobby" + str(i))
+	print("-------------IN UPDATE_UI--------------")
+	#THIS IS ONLY WHEN TESTING THE TESTING CLIENT
+	if(Networking.extra == false):
+		var keys = info.keys()
+		#happens everytime 1 client disconnects
+		if(info.size() < MAX_PLAYERS):
 			
-			if(info[keys[i]].ready == true):
-				pLobby.get_node("PlayerReadyLabel").visible = true
-				pLobby.get_node("PlayerReadyLabel").text = "Player name: " + info[keys[i]].name + " is ready!!!!"
+			var size = info.size() 
+			get_node("PlayerLobby" + str(size)).free()
+			for i in range(0,keys.size()):
+				var pLobby = get_node("PlayerLobby" + str(i))
+				pLobby.get_node("PlayerNumber").text = "Player Number is: " + str(i+1)
+				pLobby.get_node("PlayerName").set_text("Player Name is: " + info[keys[i]].name)
 				pLobby.get_node("ReadyButton").visible = false
-			elif((info[keys[i]].ready == false) and my_id == keys[i]):
-				pLobby.get_node("ReadyButton").visible = true
-				pLobby.get_node("PlayerReadyLabel").visible = false
-			else:
 				pLobby.get_node("PlayerReadyLabel").text = ""
+				pLobby.get_node("PlayerReadyLabel").visible = false
+		else:
+			for i in range(0,keys.size()):
+				var pLobby = get_node("PlayerLobby" + str(i))
+				
+				if(info[keys[i]].ready == true):
+					pLobby.get_node("PlayerReadyLabel").visible = true
+					pLobby.get_node("PlayerReadyLabel").text = "Player name: " + info[keys[i]].name + " is ready!!!!"
+					pLobby.get_node("ReadyButton").visible = false
+				elif((info[keys[i]].ready == false) and my_id == keys[i]):
+					pLobby.get_node("ReadyButton").visible = true
+					pLobby.get_node("PlayerReadyLabel").visible = false
+				else:
+					pLobby.get_node("PlayerReadyLabel").text = ""
 	
 
 func _setup_ui(info, max_players):
-	MAX_PLAYERS = max_players
-	print("max players in lobby: " + str(MAX_PLAYERS))
-	var keys = info.keys()
-	
-	#if there are more than one client connected
-	if(get_tree().multiplayer.get_network_connected_peers().size() >= 1):
-		for i in range(0,keys.size()):
-			if(has_node("PlayerLobby" + str(i))):
-				pass
-			#Create a PlayerLobbyScene for each individual Player and add it to the Lobby Node
-			else:
-				var newLobby = PlayerLobbyScene.instance()
-				newLobby.name = "PlayerLobby" + str(i)
-				newLobby.position = Vector2(0,60*i)
-				newLobby.get_node("PlayerNumber").text = "Player Number is: " + str(i+1)
-				newLobby.get_node("PlayerName").set_text("Player Name is: " + info[keys[i]].name)
-				add_child(newLobby)	
-	if(MAX_PLAYERS == keys.size()):
-		for i in range(0, keys.size()):
-			var pLobby = get_node("PlayerLobby" + str(i))
-			if(my_id == keys[i]):
-				pLobby.get_node("ReadyButton").visible = true
+	print("-------------IN SETUP_UI--------------")
+	if(Networking.extra == false):
+		MAX_PLAYERS = max_players
+		print("max players in lobby: " + str(MAX_PLAYERS))
+		var keys = info.keys()
+		
+		#if there are more than one client connected
+		if(get_tree().multiplayer.get_network_connected_peers().size() >= 1):
+			for i in range(0,keys.size()):
+				if(has_node("PlayerLobby" + str(i))):
+					pass
+				#Create a PlayerLobbyScene for each individual Player and add it to the Lobby Node
+				else:
+					var newLobby = PlayerLobbyScene.instance()
+					newLobby.name = "PlayerLobby" + str(i)
+					newLobby.position = Vector2(0,60*i)
+					newLobby.get_node("PlayerNumber").text = "Player Number is: " + str(i+1)
+					newLobby.get_node("PlayerName").set_text("Player Name is: " + info[keys[i]].name)
+					add_child(newLobby)	
+		if(MAX_PLAYERS == keys.size()):
+			for i in range(0, keys.size()):
+				var pLobby = get_node("PlayerLobby" + str(i))
+				if(my_id == keys[i]):
+					pLobby.get_node("ReadyButton").visible = true
 
 
 func _start_game(info, playerPosNames,ball_pos_moveDir):
@@ -87,3 +92,9 @@ func _start_game(info, playerPosNames,ball_pos_moveDir):
 		get_tree().get_root().add_child(game)
 		game.setup(playerPosNames, ball_pos_moveDir)
 		hide()
+	if Networking.extra == true:
+		print("I am in the Networking.extra == true if statement")
+		game.hide()
+		var dummy = preload("res://Dummy.tscn")
+		var dummyInst = dummy.instance()
+		get_tree().get_root().add_child(dummyInst)

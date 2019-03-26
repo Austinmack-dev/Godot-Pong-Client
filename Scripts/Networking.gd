@@ -19,7 +19,7 @@ func _ready():
 	get_tree().multiplayer.connect("server_disconnected",self,"_no_longer_connected")
 	
 puppet func _testing_client():
-	get_tree().change_scene("res://Dummy.tscn")
+	extra = true
 #	print("I am in _testing_client()")
 #	emit_signal("bad_client")
 #	print("after bad_client is emitted")

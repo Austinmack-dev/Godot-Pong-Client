@@ -30,8 +30,6 @@ puppet func _player_scored(client_id, score):
 	for pScore in scoreLabelList:
 		if(pScore.name == "Score-" + str(client_id)):
 			pScore.text = str(score)
-#	var pScore = get_node("Score-" + str(client_id))
-#	pScore.text = str(score)
 
 puppet func _end_game(player_name):
 	set_ball_and_player_physics(false)
@@ -39,7 +37,6 @@ puppet func _end_game(player_name):
 	hide()
 	#show the end game screen
 	if(has_node("/root/EndGame")):
-		#var end = get_node("/root/EndGame")
 		endGame.show()
 		var playerWinLabel = endGame.get_node("PlayerWinLabel")
 		playerWinLabel.text = player_name + " wins the game!!!"
@@ -132,7 +129,6 @@ puppet func _reset_ball_on_client(ball_pos):
 	ball.position = ball_pos
 	#show the ball and stop it from moving, and start the timer
 	ball.show()
-	#set_physics_process(true)
 
 puppet func _send_client_time_left(timeLeft):
 	timeLabel.text = str(timeLeft)
