@@ -32,19 +32,20 @@ puppet func _player_scored(client_id, score):
 			pScore.text = str(score)
 
 puppet func _end_game(player_name):
-	set_ball_and_player_physics(false)
-	#hide the game world
-	hide()
-	#show the end game screen
-	if(has_node("/root/EndGame")):
-		endGame.show()
-		var playerWinLabel = endGame.get_node("PlayerWinLabel")
-		playerWinLabel.text = player_name + " wins the game!!!"
-	else:
-		endGame = EndGameScene.instance()
-		get_tree().get_root().add_child(endGame)
-		var playerWinLabel = endGame.get_node("PlayerWinLabel")
-		playerWinLabel.text = player_name + " wins the game!!!"
+	if(Networking.extra == false):
+		set_ball_and_player_physics(false)
+		#hide the game world
+		hide()
+		#show the end game screen
+		if(has_node("/root/EndGame")):
+			endGame.show()
+			var playerWinLabel = endGame.get_node("PlayerWinLabel")
+			playerWinLabel.text = player_name + " wins the game!!!"
+		else:
+			endGame = EndGameScene.instance()
+			get_tree().get_root().add_child(endGame)
+			var playerWinLabel = endGame.get_node("PlayerWinLabel")
+			playerWinLabel.text = player_name + " wins the game!!!"
 
 func setup_ball(ball_pos_moveDir):
 	if(has_node("Ball")):
