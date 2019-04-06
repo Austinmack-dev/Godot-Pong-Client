@@ -8,7 +8,3 @@ extends Node2D
 func _ready():
 	var idLabel =  get_node("idLabel")
 	idLabel.text = str(get_tree().multiplayer.get_network_unique_id())
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass

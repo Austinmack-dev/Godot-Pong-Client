@@ -20,7 +20,6 @@ func _ready():
 	#print ("\n network master: " + str(get_tree().multiplayer.get_network_master()))
 	
 func _update_ui(info,id):
-	print("-------------IN UPDATE_UI--------------")
 	#THIS IS ONLY WHEN TESTING THE TESTING CLIENT
 	if(Networking.extra == false):
 		var keys = info.keys()
@@ -52,7 +51,6 @@ func _update_ui(info,id):
 	
 
 func _setup_ui(info, max_players):
-	print("-------------IN SETUP_UI--------------")
 	if(Networking.extra == false):
 		MAX_PLAYERS = max_players
 		print("max players in lobby: " + str(MAX_PLAYERS))

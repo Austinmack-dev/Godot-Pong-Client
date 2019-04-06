@@ -4,8 +4,6 @@ extends Button
 func _ready():
 	pass
 
-
-
 func _on_joinButton_pressed():
 	if(get_node("/root/Node2D/playerNameBox").text != ""):
 		Networking.client_info.name = get_node("/root/Node2D/playerNameBox").text;

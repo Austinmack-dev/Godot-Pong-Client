@@ -30,24 +30,18 @@ func _physics_process(delta):
 		#if the user presses up or W, then move up
 		if Input.is_key_pressed(KEY_UP) or Input.is_key_pressed(KEY_W):
 			moveY = moveY - 1
-			#rpc_id(1,"_send_server_movement_data", Vector2(0,moveY))
 		#if the user presses down or S, move down
 		if Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_S):
 			moveY = moveY + 1
-			#rpc_id(1,"_send_server_movement_data", Vector2(0,moveY))
 		toMove = Vector2(0,moveY)
-		#print("before send")
 		if(moveY != 0):
 			rpc_id(1,"_send_server_movement_data",moveY,player_id,delta)
-		#print("after send")
 		#set the move Vector2 to move in the y direction only, since our paddles
 		#are on the left and right of the game world screen
 		
 		#send the movement data from our controlled player to the server
-		#rpc_unreliable_id(1,"_send_server_movement_data", toMove.normalized())
 		#move based on the calculated move vector
 		move_and_collide(toMove.normalized()*moveSpeed*delta)
 		#do not let the position move
 		position.x = originalPos.x
-		#print("position: " + str(position))
 

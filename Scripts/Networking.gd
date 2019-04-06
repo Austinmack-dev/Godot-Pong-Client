@@ -20,9 +20,6 @@ func _ready():
 	
 puppet func _testing_client():
 	extra = true
-#	print("I am in _testing_client()")
-#	emit_signal("bad_client")
-#	print("after bad_client is emitted")
 
 func _peer_connected(id):
 	pass
