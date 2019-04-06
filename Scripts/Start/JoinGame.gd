@@ -12,5 +12,5 @@ func _on_joinButton_pressed():
 	
 	#connect to server
 	var client = NetworkedMultiplayerENet.new()
-	client.create_client("127.0.0.1", 4242)
+	client.create_client("127.0.0.1", 4300)
 	get_tree().multiplayer.set_network_peer(client)

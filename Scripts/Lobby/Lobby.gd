@@ -51,6 +51,7 @@ func _update_ui(info,id):
 	
 
 func _setup_ui(info, max_players):
+	print("in setup_UI")
 	if(Networking.extra == false):
 		MAX_PLAYERS = max_players
 		print("max players in lobby: " + str(MAX_PLAYERS))

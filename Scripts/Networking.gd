@@ -50,6 +50,7 @@ puppet func _set_client_to_not_ready():
 	client_info.ready = false
 
 puppet func _setup_lobby(info, max_players):
+	print("in setup_lobby")
 	MAX_PLAYERS = max_players
 	print("max players in networking: " + str(MAX_PLAYERS))
 	emit_signal("setup_ui",info, max_players)
