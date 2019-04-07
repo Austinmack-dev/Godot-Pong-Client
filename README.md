@@ -1,2 +1,2 @@
 # Godot-Pong-Client
-This is the player version of the game Pong.
+This is the player version of the networked game Pong.
