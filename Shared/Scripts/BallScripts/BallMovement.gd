@@ -9,5 +9,6 @@ puppet func ball_move(pos,mvDir):
 	position = pos
 	moveDir = mvDir
 
+#for processing physics
 func _physics_process(delta):
 	rpc_id(1,"_send_server_ball_move_info",moveDir,delta)
