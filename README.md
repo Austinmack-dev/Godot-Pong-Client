@@ -5,12 +5,12 @@ The client was created completely using the Godot Engine, utilizing remote proce
 
 ## Screenshots:
 
-![BeginningGame](Screenshots/BeginningGame.png "Beginning of the Game")
+![BeginningGame](Screenshots/BeginningGame.PNG "Beginning of the Game")
 
-![MidGame](Screenshots/MidGame.png "MidGame")
+![MidGame](Screenshots/MidGame.PNG "MidGame")
 
-![MidGame1](Screenshots/MidGame1.png "MidGame1")
+![MidGame1](Screenshots/MidGame1.PNG "MidGame1")
 
-![MidGame2](Screenshots/MidGame2.png "MidGame2")
+![MidGame2](Screenshots/MidGame2.PNG "MidGame2")
 
-![EndGame](Screenshots/Screenshot1.png "End Game")
+![EndGame](Screenshots/Screenshot1.PNG "End Game")
