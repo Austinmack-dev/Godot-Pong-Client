@@ -13,4 +13,4 @@ The client was created completely using the Godot Engine, utilizing remote proce
 
 ![MidGame2](Screenshots/MidGame2.PNG "MidGame2")
 
-![EndGame](Screenshots/Screenshot1.PNG "End Game")
+![EndGame](Screenshots/EndGame.PNG "End Game")
