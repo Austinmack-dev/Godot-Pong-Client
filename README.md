@@ -5,12 +5,4 @@ The client was created completely using the Godot Engine, utilizing remote proce
 
 ## Screenshots:
 
-![BeginningGame](Screenshots/BeginningGame.PNG "Beginning of the Game")
-
-![MidGame](Screenshots/MidGame.PNG "MidGame")
-
-![MidGame1](Screenshots/MidGame1.PNG "MidGame1")
-
-![MidGame2](Screenshots/MidGame2.PNG "MidGame2")
-
-![EndGame](Screenshots/EndGame.PNG "End Game")
+For screenshots and a gameplay breakdown, visit the [Server Repository's README](https://github.com/Austinmack-dev/Godot-Pong-Server/blob/master/README.md)
