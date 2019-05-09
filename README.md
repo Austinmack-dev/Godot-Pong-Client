@@ -5,4 +5,4 @@ The client was created completely using the Godot Engine, utilizing remote proce
 
 ## Screenshots:
 
-For screenshots and a gameplay breakdown, visit the [Server Repository's README](https://github.com/Austinmack-dev/Godot-Pong-Server/blob/master/README.md)
+For screenshots, a gameplay breakdown, and learning objectives of the project, visit the [Server Repository's README](https://github.com/Austinmack-dev/Godot-Pong-Server/blob/master/README.md)
